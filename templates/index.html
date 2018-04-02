@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ethereum-Smart-Contract-Test</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+<body>
+
+<script type="text/javascript" src="https://solc-bin.ethereum.org/bin/soljson-v0.4.8+commit.60cc1668.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@0.20.6/dist/web3.min.js"></script>
+
+<script type="text/javascript">
+	var Web3 = require('web3');
+
+	var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+
+	console.log(web3.eth.coninbase);
+
+</script>
+</body>
+</html>
