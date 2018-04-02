@@ -50,14 +50,19 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#portfolio">Portfolio</a>
+                        <a href="#portfolio">Crowdsale</a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#about">About</a>
+                        <a href="#about">About Project</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <li class="page-scroll">
+                        <a href="#accounts">{{ user.username }} </a>
+                    </li>
+                    {% endif %}
                     <li class="page-scroll">
                         {% if user.is_authenticated %}
-                            <a href="#">{{ user.username }} / Signout</a>
+                            <a href="{% url 'logout' %}">Signout</a>
                         {% else %}
                             <a href="{% url 'social:begin' 'github' %}?next={{ request.path }}">Login with github</a>
                         {% endif %}
@@ -76,9 +81,9 @@
                 <div class="col-lg-12">
                     <img class="img-responsive" src="{% static 'img/main.png' %}" alt="">
                     <div class="intro-text">
-                        <span class="name">Smart-Contract-Test</span>
+                        <span class="name">E-learning Crowdsale</span>
                         <hr class="star-light">
-                        <span class="skills">You can buy E-learning video by Ethereum!</span>
+                        <span class="skills">You can buy E-learning Crowdsale by Ethereum!</span>
                     </div>
                 </div>
             </div>
@@ -90,7 +95,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2>E-Learning Video</h2>
+                    <h2>E-Learning Crowdsale!</h2>
                     <hr class="star-primary">
                 </div>
             </div>
@@ -110,7 +115,32 @@
             </div>
         </div>
     </section>
-
+    {% if user.is_authenticated %}
+    <section id="accounts">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Funding</h2>
+                    <hr class="star-light">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">Test</a>
+                    <p>Transaction: sad23trdaefgrage45tygadfsv23r</p>
+                </div>
+                <div class="col-lg-8 col-lg-offset-2">
+                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">Test</a>
+                    <p>Transaction: sad23trdaefgrage45tygadfsv23r</p>
+                </div>
+                <div class="col-lg-8 col-lg-offset-2">
+                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">Test</a>
+                    <p>Transaction: sad23trdaefgrage45tygadfsv23r</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
     <!-- About Section -->
     <section class="success" id="about">
         <div class="container">
@@ -177,6 +207,7 @@
         </a>
     </div>
 
+
     <!-- Portfolio Modals -->
     <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
@@ -190,25 +221,45 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h2>Project Title</h2>
+                            <h2>Test Case1</h2>
                             <hr class="star-primary">
                             <img src="{% static 'img/portfolio/cabin.png' %}" class="img-responsive img-centered" alt="">
-                            <p>Use this area of the page to describe your project. The icon above is part of a free icon set by <a href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On their website, you can download their free set with 16 icons, or you can purchase the entire set with 146 icons for only $12!</p>
+                            <p>You can learn about ethereum and solidity language!</p>
                             <ul class="list-inline item-details">
-                                <li>Client:
-                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                <li>최소금액
+                                    <strong> 0.5 ETH
                                     </strong>
                                 </li>
-                                <li>Date:
-                                    <strong><a href="http://startbootstrap.com">April 2014</a>
+                                <li>목표금액:
+                                    <strong> 1000 ETH
                                     </strong>
                                 </li>
                                 <li>Service:
-                                    <strong><a href="http://startbootstrap.com">Web Development</a>
-                                    </strong>
+                                    <strong>Vimeo</strong>
                                 </li>
                             </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+
+                            <form action="#" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="">보유 ETH </label>
+                                    {% if user.is_authenticated %}
+                                        <input type="text" readonly aria-readonly="true" value="23312.2312" name="getBalance">
+                                    {% else %}
+                                        <input type="text" readonly aria-readonly="true" value="최초 로그인 시, 테스트 10 ETH" name="getBalance">
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="">구매 ETH </label>
+                                    <input type="number" value="0.5" name="price">
+                                    <p><strong>테스트 넷 입니다!</strong></p>
+                                </div>
+                                {% if user.is_authenticated %}
+                                    <a href="#" class="btn btn-primary">펀딩하기</a>
+                                {% else %}
+                                    <a href="{% url 'social:begin' 'github' %}?next={{ request.path }}" class="btn btn-primary">로그인이 필요합니다.</a>
+                                {% endif %}
+                            </form>
                         </div>
                     </div>
                 </div>
