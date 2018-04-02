@@ -1,9 +1,24 @@
 language: python
 python:
+  - "3.4"
+  - "3.5"
   - "3.6"
 
-# command to install dependencies
-install: "pip install -r requirements.txt"
+## matrix 옵션에서 빌드별 장고 버전을 명시했습니다.
+env:
+  global:
+    - BUILD_ON_TRAVIS=true
+  matrix:
+    - DJANGO_VERSION=2.0.0
+    - DJANGO_VERSION=2.0.1
+    - DJANGO_VERSION=2.0.2
+    - DJANGO_VERSION=2.0.3
 
+# command to install dependencies
+install:
+  - "pip install -r requirements.txt"
+  - pip install -q Django==$DJANGO_VERSION
 # command to run tests
-script: python managy.py test
+script:
+  - python manage.py migrate -v 3
+  - python manage.py test -v 3
