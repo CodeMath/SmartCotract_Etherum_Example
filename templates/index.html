@@ -5,8 +5,14 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
+
+
+<a href="{% url 'social:begin' 'github' %}?next={{ request.path }}">Login with github</a>
 
 <script type="text/javascript" src="https://solc-bin.ethereum.org/bin/soljson-v0.4.8+commit.60cc1668.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@0.20.6/dist/web3.min.js"></script>
