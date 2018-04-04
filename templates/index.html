@@ -96,13 +96,18 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2>E-Learning Crowdsale!</h2>
+                    {% if user.is_authenticated %}
+                    <p>Your Address(Private-net): {{ address }}</p>
+                        <strong> 테스트 넷입니다. 위 주소로 입금하지마시오.</strong>
+                    <p>Amount: {{ balance }} Ether</p>
+                    {% endif %}
                     <hr class="star-primary">
                 </div>
             </div>
             <div class="row">
 
                 <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
+                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal" name="funding">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
@@ -115,28 +120,24 @@
             </div>
         </div>
     </section>
+
+
     {% if user.is_authenticated %}
     <section id="accounts">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2>Funding</h2>
+                    <h2>My Funding</h2>
                     <hr class="star-light">
                 </div>
             </div>
             <div class="row">
+                {% for each in history_txid %}
                 <div class="col-lg-8 col-lg-offset-2">
-                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">Test</a>
-                    <p>Transaction: sad23trdaefgrage45tygadfsv23r</p>
+                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal" name="funding">{{ each.funding }}</a>
+                    <p>Transaction: {{ each.txid }}</p>
                 </div>
-                <div class="col-lg-8 col-lg-offset-2">
-                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">Test</a>
-                    <p>Transaction: sad23trdaefgrage45tygadfsv23r</p>
-                </div>
-                <div class="col-lg-8 col-lg-offset-2">
-                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">Test</a>
-                    <p>Transaction: sad23trdaefgrage45tygadfsv23r</p>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -242,20 +243,20 @@
                             <form action="#" method="post">
                                 {% csrf_token %}
                                 <div class="form-group">
-                                    <label for="">보유 ETH </label>
-                                    {% if user.is_authenticated %}
-                                        <input type="text" readonly aria-readonly="true" value="23312.2312" name="getBalance">
-                                    {% else %}
-                                        <input type="text" readonly aria-readonly="true" value="최초 로그인 시, 테스트 10 ETH" name="getBalance">
-                                    {% endif %}
+                                    <label for="">현재 펀딩 ETH </label>
+                                    <input type="text" readonly aria-readonly="true" value="" id="funding_balance">
                                 </div>
                                 <div class="form-group">
                                     <label for="">구매 ETH </label>
-                                    <input type="number" value="0.5" name="price">
+                                    {% if user.is_authenticated %}
+                                        <input type="number" value="0.5" name="price" id="price">
+                                    {% else %}
+                                        <input type="text" readonly aria-readonly="true" value="최초 로그인 시, 테스트 5 ETH" name="getBalance">
+                                    {% endif %}
                                     <p><strong>테스트 넷 입니다!</strong></p>
                                 </div>
                                 {% if user.is_authenticated %}
-                                    <a href="#" class="btn btn-primary">펀딩하기</a>
+                                    <a href="#" class="btn btn-primary" name="ethsending">펀딩하기</a>
                                 {% else %}
                                     <a href="{% url 'social:begin' 'github' %}?next={{ request.path }}" class="btn btn-primary">로그인이 필요합니다.</a>
                                 {% endif %}
@@ -293,14 +294,51 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@0.20.6/dist/web3.min.js"></script>
 
     <!-- Required Account -->
-    <script type="text/javascript">
-	    var Web3 = require('web3');
+{#    <script type="text/javascript">#}
+{#	    var Web3 = require('web3');#}
+{#	    var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));#}
+{#    </script>#}
 
-	    var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+    <script type="application/javascript">
+        $('a[name=funding]').on('click',function(){
+            $.ajax({
+                type:"POST",
+                url:"/funding/",
+                dataType:"json",
+                data:{
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success:function(data){
+                    if (data["error"]) {
+                        alert(data["error"])
+                    } else {
+                        $('#funding_balance').val(data["funding"])
+                    }
+                }
+            })
+        });
 
+        $('a[name=ethsending]').on('click', function() {
+            $.ajax({
+                type: "POST",
+                url: "/transaction/eth/",
+                dataType: 'json',
+                data: {
+                    'price': $('#price').val(),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    if (data["error"]) {
+                        alert(data["error"])
+                    } else {
+                        console.log(data["txid"]);
+                        alert("Transaction 대기중 입니다. :) ")
+                        location.reload();
+                    }
+                }
+            })
+        });
     </script>
-
-
 
 </body>
 </html>

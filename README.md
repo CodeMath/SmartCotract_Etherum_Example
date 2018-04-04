@@ -3,6 +3,14 @@ This project is based on Django for Ethreum Smart contract example.
 
 Before start project, need to ethereum test net or private net.
 
+
+1. Version 1.0.0
+    - Use a JSON-RPC Server.
+    - Simple testing for transaction and generate new account.
+    - Github login and auto-generate address. (Password is so simple. because it is a just test!)
+    - After testing, user make a password for address.(Not now)
+
+
 more information [geth](https://geth.ethereum.org) or [Metamask](https://metamask.io)
 
 
@@ -30,6 +38,11 @@ $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py runserver
 ```
+
+<b>Make a eth_testnet/configure.py</b>
+configure.py is a github token and address, password.
+
+
 
 #### Anything else that seems useful
 
