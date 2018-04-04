@@ -1,4 +1,7 @@
 ## Ethereum Smart Contract Example on Django
+![preview](https://github.com/CodeMath/SmartCotract_Etherum_Example/blob/ver-1.0.1/screenshot/1.png?raw=true)
+![preview](https://github.com/CodeMath/SmartCotract_Etherum_Example/blob/ver-1.0.1/screenshot/2.png?raw=true)
+![preview](https://github.com/CodeMath/SmartCotract_Etherum_Example/blob/ver-1.0.1/screenshot/3.png?raw=true)
 This project is based on Django for Ethreum Smart contract example.
 
 Before start project, need to ethereum test net or private net.
@@ -40,6 +43,7 @@ $ python manage.py runserver
 ```
 
 <b>Make a eth_testnet/configure.py</b>
+
 configure.py is a github token and address, password.
 
 
